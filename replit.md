@@ -1,6 +1,6 @@
-# [Project name]
+# Reloop
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Reloop helps people in India find the best next life for used products through smart routing, local partners, rewards, and visible impact.
 
 ## Run & Operate
 

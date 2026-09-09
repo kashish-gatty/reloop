@@ -127,7 +127,7 @@ async function seedDemoData() {
   const existingRewards = await db.select().from(rewardsTable).limit(1);
   if (existingRewards.length === 0) {
     await db.insert(rewardsTable).values({
-      title: "Welcome to Circular India",
+      title: "Welcome to Reloop",
       points: 50,
       status: "earned",
       date: "Today",

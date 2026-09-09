@@ -60,7 +60,7 @@ function Shell({ children }: { children: ReactNode }) {
         <div className="flex items-center gap-3 px-2">
           <span className="leaf-mark" aria-hidden="true" />
           <div>
-            <div className="font-display text-xl font-bold leading-none">circular</div>
+            <div className="font-display text-xl font-bold leading-none">reloop</div>
             <div className="mt-1 font-mono-ui text-[9px] uppercase tracking-[.24em] text-sidebar-foreground/60">India / action center</div>
           </div>
           <button className="ml-auto rounded-lg p-2 md:hidden" onClick={() => setMobileOpen(false)} aria-label="Close menu" data-testid="button-close-menu"><X size={18} /></button>

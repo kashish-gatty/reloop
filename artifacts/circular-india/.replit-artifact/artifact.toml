@@ -1,6 +1,6 @@
 kind = "web"
 previewPath = "/"
-title = "Circular India"
+title = "Reloop"
 description = "A smart circular-economy platform for India that guides people toward the best next action for used products, connects them with reuse and recycling partners, and rewards measurable participation."
 version = "1.0.0"
 id = "artifacts/circular-india"
