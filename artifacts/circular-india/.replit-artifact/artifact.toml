@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Circular India"
+description = "A smart circular-economy platform for India that guides people toward the best next action for used products, connects them with reuse and recycling partners, and rewards measurable participation."
+version = "1.0.0"
+id = "artifacts/circular-india"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20139
+
+[services.development]
+run = "pnpm --filter @workspace/circular-india run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/circular-india", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/circular-india/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20139"
+BASE_PATH = "/"

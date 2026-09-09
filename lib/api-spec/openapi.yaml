@@ -10,6 +10,8 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: circular
+    description: Circular India operations
 paths:
   /healthz:
     get:
@@ -24,7 +26,107 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [circular]
+      summary: Get the user's dashboard
+      responses:
+        "200":
+          description: Dashboard summary
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+  /items:
+    get:
+      operationId: listItems
+      tags: [circular]
+      summary: List submitted items
+      responses:
+        "200":
+          description: Submitted items
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Item"
+    post:
+      operationId: createItem
+      tags: [circular]
+      summary: Submit a used product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ItemInput"
+      responses:
+        "201":
+          description: Submitted item with recommendation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+  /items/{id}:
+    get:
+      operationId: getItem
+      tags: [circular]
+      summary: Get a submitted item
+      parameters:
+        - $ref: "#/components/parameters/ItemId"
+      responses:
+        "200":
+          description: Submitted item
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Item"
+        "404":
+          description: Item not found
+  /partners:
+    get:
+      operationId: listPartners
+      tags: [circular]
+      summary: List nearby circular partners
+      parameters:
+        - name: city
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Circular partners
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Partner"
+  /rewards:
+    get:
+      operationId: listRewards
+      tags: [circular]
+      summary: List earned rewards
+      responses:
+        "200":
+          description: Rewards
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Reward"
 components:
+  parameters:
+    ItemId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
     HealthStatus:
       type: object
@@ -33,4 +135,107 @@ components:
           type: string
       required:
         - status
+    ItemInput:
+      type: object
+      required: [name, category, condition, city]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        category:
+          type: string
+          enum: [electronics, clothing, books, furniture, appliances, other]
+        condition:
+          type: string
+          enum: [like_new, good, needs_repair, unusable]
+        city:
+          type: string
+          minLength: 1
+        notes:
+          type: ["string", "null"]
+    Item:
+      allOf:
+        - $ref: "#/components/schemas/ItemInput"
+        - type: object
+          required: [id, recommendation, recommendationReason, status, points, createdAt]
+          properties:
+            id:
+              type: integer
+            recommendation:
+              type: string
+              enum: [reuse, refurbish, recycle]
+            recommendationReason:
+              type: string
+            status:
+              type: string
+              enum: [submitted, pickup_scheduled, verified, rewarded]
+            points:
+              type: integer
+            createdAt:
+              type: string
+    Partner:
+      type: object
+      required: [id, name, type, city, distance, rating, accepts]
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        city:
+          type: string
+        distance:
+          type: string
+        rating:
+          type: number
+        accepts:
+          type: array
+          items:
+            type: string
+    Reward:
+      type: object
+      required: [id, title, points, status, date]
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        points:
+          type: integer
+        status:
+          type: string
+          enum: [earned, pending]
+        date:
+          type: string
+    Impact:
+      type: object
+      required: [itemsDiverted, co2Saved, waterSaved, points]
+      properties:
+        itemsDiverted:
+          type: integer
+        co2Saved:
+          type: number
+        waterSaved:
+          type: number
+        points:
+          type: integer
+    Dashboard:
+      type: object
+      required: [firstName, impact, recentItems, recentRewards, nextAction]
+      properties:
+        firstName:
+          type: string
+        impact:
+          $ref: "#/components/schemas/Impact"
+        recentItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/Item"
+        recentRewards:
+          type: array
+          items:
+            $ref: "#/components/schemas/Reward"
+        nextAction:
+          type: ["string", "null"]
 
