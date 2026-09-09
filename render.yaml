@@ -4,7 +4,7 @@ services:
     runtime: node
     plan: free
     region: oregon
-    buildCommand: npm install -g pnpm && pnpm install && pnpm run build:all
+    buildCommand: pnpm install && pnpm run build:all
     startCommand: pnpm run db:push && pnpm run start
     healthCheckPath: /api/healthz
     envVars:

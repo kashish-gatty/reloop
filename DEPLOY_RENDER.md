@@ -46,7 +46,7 @@ If you prefer to configure the Web Service manually:
    - **Runtime**: `Node`
    - **Build Command**:
      ```bash
-     npm install -g pnpm && pnpm install && pnpm run build:all
+     pnpm install && pnpm run build:all
      ```
    - **Start Command**:
      ```bash
