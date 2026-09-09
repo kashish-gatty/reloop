@@ -16,6 +16,38 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      #replitBadge,
+      [id*="replitBadge"],
+      [id*="replit-badge"],
+      [class*="replit-badge"],
+      a[href*="__repl"],
+      a[href*="utm_medium=webview_badge"],
+      img[src*="replit.com/badge"],
+      #replit-dev-banner,
+      [id*="dev-banner"] {
+        display: none !important;
+        opacity: 0 !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        width: 0 !important;
+        height: 0 !important;
+        overflow: hidden !important;
+      }
+    </style>
+    <script>
+      (function() {
+        function hideWatermark() {
+          var els = document.querySelectorAll('#replitBadge, [id*="replitBadge"], [id*="replit-badge"], [class*="replit-badge"], a[href*="__repl"], a[href*="utm_medium=webview_badge"], img[src*="replit.com/badge"], #replit-dev-banner, [id*="dev-banner"]');
+          els.forEach(function(el) { el.remove(); });
+        }
+        if (typeof MutationObserver !== 'undefined') {
+          new MutationObserver(hideWatermark).observe(document.documentElement, { childList: true, subtree: true });
+        }
+        window.addEventListener('DOMContentLoaded', hideWatermark);
+        window.addEventListener('load', hideWatermark);
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: reloop
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install -g pnpm && pnpm install && pnpm run build:all
+    preDeployCommand: pnpm run db:push
+    startCommand: pnpm run start
+    healthCheckPath: /api/healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        fromDatabase:
+          name: reloop-db
+          property: connectionString
+
+databases:
+  - name: reloop-db
+    databaseName: reloop
+    user: reloop_user
+    plan: free
+    region: oregon
